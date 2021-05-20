@@ -21,24 +21,24 @@ Future<NativeResponse> post(
 }
 
 Future<NativeResponse> request(
-    {String url,
-    String method,
-    Map<String, dynamic> headers,
-    Map<String, dynamic> body}) async {
+    {String? url,
+    String? method,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? body}) async {
   Map<String, dynamic> response =
-      await _channel.invokeMapMethod<String, dynamic>("native_http/request", {
+      await (_channel.invokeMapMethod<String, dynamic>("native_http/request", {
     "url": url,
     "method": method,
     "headers": headers,
     "body": body,
-  });
+  }) as FutureOr<Map<String, dynamic>>);
   return NativeResponse._fromMap(response);
 }
 
 class NativeResponse {
-  int code;
-  String body;
-  dynamic getJson() => json.decode(body);
+  int? code;
+  String? body;
+  dynamic getJson() => json.decode(body!);
   static NativeResponse _fromMap(Map<String, dynamic> response) {
     return NativeResponse()
       ..code = response["code"]
