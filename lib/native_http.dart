@@ -25,14 +25,15 @@ Future<NativeResponse> request(
     String? method,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? body}) async {
-  Map<String, dynamic> response =
+  Map<String, dynamic>? response =
       await (_channel.invokeMapMethod<String, dynamic>("native_http/request", {
     "url": url,
     "method": method,
     "headers": headers,
     "body": body,
-  }) as FutureOr<Map<String, dynamic>>);
-  return NativeResponse._fromMap(response);
+  }));
+  print(response);
+  return NativeResponse._fromMap(response!);
 }
 
 class NativeResponse {
